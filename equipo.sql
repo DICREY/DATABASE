@@ -1,7 +1,7 @@
 CREATE DATABASE laboratorio;
 CREATE TABLE laboratorio.equipo(
-    nomeq VARCHAR(20) PRIMARY KEY UNIQUE,
-    director VARCHAR(50)
+    nomeq VARCHAR(20) PRIMARY KEY UNIQUE NOT NULL,
+    director VARCHAR(50) NOT NULL
 );
 
 INSERT INTO laboratorio.equipo VALUES 
@@ -19,7 +19,7 @@ INSERT INTO laboratorio.equipo VALUES
 SELECT * FROM laboratorio.equipo;
 
 CREATE TABLE laboratorio.ciclistas(
-    dorsal INT(11) UNSIGNED UNIQUE PRIMARY KEY,
+    dorsal INT(11) UNSIGNED UNIQUE PRIMARY KEY NOT NULL,
     nombre VARCHAR(50),
     edad INT(11),
     nomeq VARCHAR(20),
@@ -52,47 +52,47 @@ INSERT INTO laboratorio.ciclistas VALUES
 SELECT * FROM laboratorio.ciclistas;
 
 CREATE TABLE laboratorio.etapas(
-    netapa INT(11) UNSIGNED UNIQUE PRIMARY KEY,
+    netapa INT(11) UNSIGNED UNIQUE PRIMARY KEY NOT NULL,
     km INT(11),
     salida VARCHAR(20),
     llegada VARCHAR(20),
-    dorsal INT(11) UNSIGNED,
+    dorsal INT(11) UNSIGNED NOT NULL,
     FOREIGN KEY (dorsal) REFERENCES ciclistas(dorsal)
 );
 
 INSERT INTO laboratorio.etapas VALUES 
 (1, 35, 'Valladolid', 'Ávila', 1),
-(2, 70, 'Salamanca', 'Zamora', 2),
-(3, 150, 'Zamora', 'Almendralejo', 1),
-(4, 330, 'Córdoba', 'Granada', 1),
-(5, 150, 'Granada', 'Almería', 3);
+(2, 70, 'Salamanca', 'Zamora', 5),
+(3, 150, 'Zamora', 'Almendralejo', 8),
+(4, 330, 'Córdoba', 'Granada', 35),
+(5, 150, 'Granada', 'Almería', 35);
 
 SELECT * FROM laboratorio.etapas;
 
 CREATE TABLE laboratorio.puertos(
-    nompuerto VARCHAR(20) UNIQUE PRIMARY KEY,
+    nompuerto VARCHAR(20) UNIQUE PRIMARY KEY NOT NULL,
     altura INT(11),
     categoria VARCHAR(1),
     pendiente INT(11),
-    netapa INT(11) UNSIGNED,
-    dorsal INT(11) UNSIGNED,
+    netapa INT(11) UNSIGNED NOT NULL,
+    dorsal INT(11) UNSIGNED NOT NULL,
     FOREIGN KEY (netapa) REFERENCES etapas(netapa),
     FOREIGN KEY (dorsal) REFERENCES ciclistas(dorsal)
 );
 
 INSERT INTO laboratorio.puertos VALUES 
-('Puerto Alfa', 2489, '1', 34, 2, 3),
-('Puerto Beta', 2789, '1', 44, 4, 3),
-('Puerto Efe', 2500, 'E', 17, 4, 2),
-('Puerto Triple', 2500, 'E', 17, 4, 2),
+('Puerto Alfa', 2489, '1', 34, 2, 34),
+('Puerto Beta', 2789, '1', 44, 4, 35),
+('Puerto Efe', 2500, 'E', 17, 4, 5),
+('Puerto Triple', 2500, 'E', 17, 4, 12),
 ('Puerto Nuevo', 2500, 'a', 17, 4, 1),
 ('Puerto Otro', 2500, 'E', 17, 4, 1),
-('Puerto Uno', 2500, 'E', 23, 1, 2);
+('Puerto Uno', 2500, 'E', 23, 1, 26);
 
 SELECT * FROM laboratorio.puertos;
 
 CREATE TABLE laboratorio.maillot(
-    codigo VARCHAR(3) UNIQUE PRIMARY KEY,
+    codigo VARCHAR(3) UNIQUE PRIMARY KEY NOT NULL,
     tipo VARCHAR(20),
     color VARCHAR(20),
     premio INT(11)
@@ -109,9 +109,9 @@ INSERT INTO laboratorio.maillot VALUES
 SELECT * FROM laboratorio.maillot;
 
 CREATE TABLE laboratorio.llevar(
-    dorsal INT(11) UNSIGNED,
-    netapa INT(11) UNSIGNED,
-    codigo VARCHAR(3),
+    dorsal INT(11) UNSIGNED NOT NULL,
+    netapa INT(11) UNSIGNED NOT NULL,
+    codigo VARCHAR(3) NOT NULL,
     PRIMARY KEY(dorsal,netapa,codigo),
     FOREIGN KEY (dorsal) REFERENCES ciclistas(dorsal),
     FOREIGN KEY (netapa) REFERENCES etapas(netapa),
@@ -121,11 +121,11 @@ CREATE TABLE laboratorio.llevar(
 INSERT INTO laboratorio.llevar VALUES 
 (1, 3, 'MGE'),
 (1, 4, 'MGE'),
-(2, 2, 'MGE'),
-(3, 1, 'MGE'),
-(3, 1, 'MMV'),
-(3, 4, 'MRE'),
-(4, 1, 'MMO'),
+(26, 2, 'MGE'),
+(33, 1, 'MGE'),
+(8, 1, 'MMV'),
+(8, 4, 'MRE'),
+(22, 1, 'MMO'),
 (5, 2, 'MMO');
 
 SELECT * FROM laboratorio.llevar;
