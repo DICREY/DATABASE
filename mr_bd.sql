@@ -42,8 +42,7 @@ CREATE TABLE mascotas_bd.historiales_medicos(
     tratamiento VARCHAR(255) NOT NULL,
     id_veterinario INT UNSIGNED NOT NULL,
     codigo_mascota INT UNSIGNED NOT NULL,
-    FOREIGN KEY (id_veterinario) REFERENCES veterinarios(id),
-    FOREIGN KEY (id_mascota) REFERENCES mascotas(codigo)
+    FOREIGN KEY (id_veterinario) REFERENCES veterinarios(id)
 );
 
 SELECT * FROM mascotas_bd.historiales_medicos;
@@ -57,9 +56,12 @@ CREATE TABLE mascotas_bd.mascotas(
     peso FLOAT UNSIGNED NOT NULL,
     id_propietario INT UNSIGNED NOT NULL,
     historial_medico INT UNSIGNED UNIQUE NOT NULL,
-    FOREIGN KEY (id_propietario) REFERENCES propietario(id),
+    FOREIGN KEY (id_propietario) REFERENCES propietarios(id),
     FOREIGN KEY (historial_medico) REFERENCES historiales_medicos(codigo)
 );
+
+ALTER TABLE historiales_medicos
+ADD FOREIGN KEY (codigo_mascota) REFERENCES mascotas(codigo);
 
 SELECT * FROM mascotas_bd.mascotas;
 
@@ -80,8 +82,7 @@ CREATE TABLE mascotas_bd.productos(
     precio FLOAT NOT NULL,
     id_administrador INT UNSIGNED NOT NULL,
     codigo_servicio INT UNSIGNED NOT NULL,
-    FOREIGN KEY (id_administrador) REFERENCES administradores(id),
-    FOREIGN KEY (codigo_servicio) REFERENCES servicios(codigo)
+    FOREIGN KEY (id_administrador) REFERENCES administradores(id)
 );
 
 SELECT * FROM mascotas_bd.productos;
@@ -94,6 +95,9 @@ CREATE TABLE mascotas_bd.servicios(
     codigo_producto INT UNSIGNED NOT NULL,
     FOREIGN KEY (codigo_producto) REFERENCES productos(codigo)
 );
+
+ALTER TABLE productos
+ADD FOREIGN KEY (codigo_servicio) REFERENCES servicios(codigo);
 
 SELECT * FROM mascotas_bd.servicios;
 
